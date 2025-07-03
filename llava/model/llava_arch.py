@@ -394,7 +394,7 @@ class LlavaMetaForCausalLM(ABC):
                                 # frame_score = -video_mean_score.mean(-1) 
                                 # scales = generate_scales_from_frame_video_score(frame_score, base_scale)
                                 # data.scales=scales
-                                image_feature=vidcom2_compression(image_feature)
+                                # image_feature=prune_tokens(image_feature)
                             ################################################################################################
 
 

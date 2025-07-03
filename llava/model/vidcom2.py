@@ -1,5 +1,6 @@
 import torch
 from typing import Any, Dict, List, Optional, Tuple, Union
+import torch.nn.functional as F
 def compress_video_tensor(video_tensor, token_per_frame=196):
 
     # 计算每个小块的token数量
@@ -18,6 +19,46 @@ def compress_video_tensor(video_tensor, token_per_frame=196):
     result = torch.cat(compressed_chunks, dim=0)
     
     return result
+
+
+
+def prune_tokens(flattened_image_feature,  similarity_threshold=0.9 ,prune_ratio=0.25):
+    selected_tensor = select_feature_channel(flattened_image_feature)
+    frame_mean_score = compute_frame_mean_score_multi_gaussian_matrix(selected_tensor, token_per_frame=196)
+    video_mean_score = compute_video_mean_score_multi_gaussian_matrix(selected_tensor, token_per_frame=196)
+    scores=frame_mean_score+ video_mean_score
+    total_tokens = scores.numel()
+    scores_flat = scores.view(-1)
+    normalized_tokens = F.normalize(flattened_image_feature, p=2, dim=1)
+    keep_mask = torch.ones(total_tokens, dtype=torch.bool, device=scores.device)
+    prune_target = int(total_tokens * prune_ratio)
+    pruned_count = 0
+    sorted_indices = torch.argsort(scores_flat, descending=True)
+    for idx in sorted_indices:
+        if pruned_count >= prune_target:
+            break
+        if not keep_mask[idx]:
+            continue
+        similarities = torch.mv(normalized_tokens, normalized_tokens[idx])
+        print("similarities",similarities)
+        to_prune = (similarities > similarity_threshold) & keep_mask
+        to_prune[idx] = False
+        num_to_prune = to_prune.sum().item()
+        new_pruned = min(num_to_prune, prune_target - pruned_count)
+        pruned_count += new_pruned
+        if new_pruned > 0:
+            # 部分剪枝（如果新剪枝数超过需求）
+            if num_to_prune > new_pruned:
+                # 随机选择要剪枝的token
+                prune_indices = torch.where(to_prune)[0]
+                selected = torch.randperm(len(prune_indices))[:new_pruned]
+                to_prune = torch.zeros_like(to_prune)
+                to_prune[prune_indices[selected]] = True
+            keep_mask &= ~to_prune
+
+    selected_token = flattened_image_feature[keep_mask]
+    return selected_token
+
 def vidcom2_compression(flattened_image_feature,base_scale=0.25,token_score_mode="negtive_video_mean_and_global_mean",attn_score=None,frame_score_mode="negtive_video_mean", model="llava_ov",  image_feature=None):
     if model == "llava_vid" and image_feature is None:
         raise ValueError("image_feature must be provided when using 'llava_vid' model")
