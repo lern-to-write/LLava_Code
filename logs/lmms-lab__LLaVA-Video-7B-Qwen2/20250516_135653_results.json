@@ -1,0 +1,112 @@
+{
+  "results": {
+    "mlvu_dev": {
+      "alias": "mlvu_dev",
+      "mlvu_percetion_score,none": 57.793426164006874,
+      "mlvu_percetion_score_stderr,none": "N/A"
+    }
+  },
+  "group_subtasks": {
+    "mlvu_dev": []
+  },
+  "configs": {
+    "mlvu_dev": {
+      "task": "mlvu_dev",
+      "dataset_path": "sy1998/MLVU_dev",
+      "dataset_kwargs": {
+        "token": true
+      },
+      "test_split": "test",
+      "full_docs": false,
+      "process_results_use_image": false,
+      "doc_to_visual": "<function mlvu_doc_to_visual_dev at 0x7fbe56757490>",
+      "doc_to_text": "<function mlvu_doc_to_text at 0x7fbe547d5e10>",
+      "doc_to_target": "answer",
+      "process_results": "<function mlvu_process_results at 0x7fbe547d65f0>",
+      "description": "",
+      "target_delimiter": " ",
+      "fewshot_delimiter": "\n\n",
+      "num_fewshot": 0,
+      "metric_list": [
+        {
+          "metric": "mlvu_percetion_score",
+          "aggregation": "<function mlvu_aggregate_results_dev at 0x7fbe547d6d40>",
+          "higher_is_better": true
+        }
+      ],
+      "output_type": "generate_until",
+      "generation_kwargs": {
+        "max_new_tokens": 16,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "num_beams": 1,
+        "do_sample": false,
+        "until": [
+          "\n\n"
+        ]
+      },
+      "repeats": 1,
+      "should_decontaminate": false,
+      "lmms_eval_specific_kwargs": {
+        "default": {
+          "pre_prompt": "",
+          "post_prompt": "\nOnly give the best option.\nBest option: ("
+        },
+        "plm": {
+          "pre_prompt": "",
+          "post_prompt": "\nOnly give the best option."
+        },
+        "pre_prompt": "",
+        "post_prompt": "\nOnly give the best option.\nBest option: ("
+      }
+    }
+  },
+  "versions": {
+    "mlvu_dev": "Yaml"
+  },
+  "n-shot": {
+    "mlvu_dev": 0
+  },
+  "higher_is_better": {
+    "mlvu_dev": {
+      "mlvu_percetion_score": true
+    }
+  },
+  "n-samples": {
+    "mlvu_dev": {
+      "original": 2174,
+      "effective": 2174
+    }
+  },
+  "config": {
+    "model": "llava_vid",
+    "model_args": "pretrained=lmms-lab/LLaVA-Video-7B-Qwen2,conv_template=qwen_1_5,max_frames_num=64,mm_spatial_pool_mode=average",
+    "batch_size": "1",
+    "batch_sizes": [],
+    "device": null,
+    "use_cache": null,
+    "limit": null,
+    "bootstrap_iters": 100000,
+    "gen_kwargs": "",
+    "random_seed": 0,
+    "numpy_seed": 1234,
+    "torch_seed": 1234,
+    "fewshot_seed": 1234
+  },
+  "git_hash": null,
+  "date": "20250516_135653",
+  "task_hashes": {
+    "mlvu_dev": "930440aa282942b7e2eeb78c7fe5e44e79cb74136c1b1880777316c849067b4c"
+  },
+  "model_source": "llava_vid",
+  "model_name": "lmms-lab/LLaVA-Video-7B-Qwen2",
+  "model_name_sanitized": "lmms-lab__LLaVA-Video-7B-Qwen2",
+  "system_instruction": null,
+  "system_instruction_sha": null,
+  "fewshot_as_multiturn": false,
+  "chat_template": null,
+  "chat_template_sha": null,
+  "start_time": 8362909.022883972,
+  "end_time": 8374279.692601869,
+  "total_evaluation_time_seconds": "11370.66971789673"
+}

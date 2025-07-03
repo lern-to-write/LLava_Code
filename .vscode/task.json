@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "source network_turbo",
+            "type": "shell",
+            "command": "source /etc/network_turbo && echo 'Network Turbo Sourced'",
+            "problemMatcher": []
+        }
+    ]
+}
