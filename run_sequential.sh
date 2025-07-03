@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#666
 # 第一个任务
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5 accelerate launch --num_processes=6 --main_process_port 30002 \
   -m lmms_eval \
