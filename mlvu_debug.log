@@ -1,1 +1,1 @@
-2025-07-03 19:18:37.334 | ERROR    | __main__:cli_evaluate:348 - Error during evaluation: name 'load_pretrained_model' is not defined. Please set `--verbosity=DEBUG` to get more information.
+2025-07-06 02:22:30.547 | ERROR    | __main__:cli_evaluate:348 - Error during evaluation: name 'load_pretrained_model' is not defined. Please set `--verbosity=DEBUG` to get more information.
